@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String       @id @default(uuid())
+  email         String       @unique
+  name          String?
+  googleId      String       @unique
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  oauthToken    OAuthToken?
+  settings      Setting?
+  meetings      Meeting[]
+}
+
+model OAuthToken {
+  id            String   @id @default(uuid())
+  userId        String   @unique
+  accessToken   String
+  refreshToken  String
+  expiry        DateTime
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Setting {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  displayTimezone String   @default("Asia/Kolkata")
+  reminderTiming  Int      @default(30)
+  exotelNumber    String?
+  userPhone       String?
+  isEnabled       Boolean  @default(true)
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Meeting {
+  id               String        @id @default(uuid())
+  userId           String
+  googleEventId    String        @unique
+  title            String
+  startTime        DateTime
+  endTime          DateTime
+  originalTimezone String
+  status           MeetingStatus @default(ACTIVE)
+  
+  user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reminderJob      ReminderJob?
+}
+
+enum MeetingStatus {
+  ACTIVE
+  CANCELLED
+}
+
+model ReminderJob {
+  id            String        @id @default(uuid())
+  meetingId     String        @unique
+  scheduledAt   DateTime
+  status        JobStatus     @default(PENDING)
+  
+  meeting       Meeting       @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  callLogs      CallLog[]
+}
+
+enum JobStatus {
+  PENDING
+  EXECUTED
+  FAILED
+  CANCELLED
+}
+
+model CallLog {
+  id            String      @id @default(uuid())
+  reminderJobId String
+  exotelCallId  String?
+  status        String
+  duration      Int?
+  createdAt     DateTime    @default(now())
+  
+  reminderJob   ReminderJob @relation(fields: [reminderJobId], references: [id], onDelete: Cascade)
+}
