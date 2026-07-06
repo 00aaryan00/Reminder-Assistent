@@ -130,6 +130,11 @@ export const handleGoogleCallback = async (req: Request, res: Response, next: Ne
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
+    // Fire off calendar synchronization in the background (no await so it doesn't block login)
+    import('../utils/googleCalendar').then(({ syncUserCalendar }) => {
+      syncUserCalendar(user.id);
+    });
+
     // Redirect user back to frontend dashboard
     res.redirect(`${config.frontendUrl}/dashboard`);
   } catch (error) {
