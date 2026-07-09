@@ -57,9 +57,12 @@ export const triggerReminderCall = async (userPhone: string, meetingTitle: strin
     `at ${exactTime}. ` +
     `Have a great meeting! Goodbye.`;
 
-  // We use our own live Render backend to serve the XML to Exotel!
-  const messageUrl = `https://reminder-assistent.onrender.com/api/exotel/say?message=${encodeURIComponent(spokenMessage)}`;
+  // We tell Exotel to trigger the Custom App you built (App ID: 1287596)
+  const messageUrl = `http://my.exotel.in/exoml/start_voice/1287596`;
   params.append('Url', messageUrl);
+
+  // We pass the spoken message as 'CustomField' which the Passthru applet will forward to Render
+  params.append('CustomField', spokenMessage);
 
   try {
     const response = await fetch(url, {
