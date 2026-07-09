@@ -14,7 +14,7 @@ router.all('/say', (req: Request, res: Response) => {
   // Generate ExoML (XML) response
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
-  <Say>${message}</Say>
+  <Play>https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3</Play>
 </Response>`;
 
   // Exotel requires application/xml content type
