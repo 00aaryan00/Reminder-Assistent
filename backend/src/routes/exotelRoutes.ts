@@ -2,13 +2,13 @@ import { Router, Request, Response } from 'express';
 
 const router = Router();
 
-// GET /api/exotel/say?message=...
-router.get('/say', (req: Request, res: Response) => {
-  const message = req.query.message as string;
+// GET or POST /api/exotel/say
+router.all('/say', (req: Request, res: Response) => {
+  let message = req.query.message as string;
   
   if (!message) {
-    res.status(400).send('Missing message parameter');
-    return;
+    console.log('[Exotel] Warning: message parameter missing. Using fallback.');
+    message = 'Hello. This is your reminder. Have a great day.';
   }
 
   // Generate ExoML (XML) response
