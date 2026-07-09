@@ -5,6 +5,7 @@ import { config } from './config';
 import authRoutes from './routes/authRoutes';
 import settingsRoutes from './routes/settingsRoutes';
 import calendarRoutes from './routes/calendarRoutes';
+import exotelRoutes from './routes/exotelRoutes';
 import { startScheduler } from './utils/scheduler';
 
 const app = express();
@@ -23,6 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/calendar', calendarRoutes);
+app.use('/api/exotel', exotelRoutes);
 
 // Health check endpoint
 app.use('/ping', (req: Request, res: Response) => {

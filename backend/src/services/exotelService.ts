@@ -57,7 +57,8 @@ export const triggerReminderCall = async (userPhone: string, meetingTitle: strin
     `at ${exactTime}. ` +
     `Have a great meeting! Goodbye.`;
 
-  const messageUrl = `http://twimlets.com/message?Message%5B0%5D=${encodeURIComponent(spokenMessage)}`;
+  // We use our own live Render backend to serve the XML to Exotel!
+  const messageUrl = `https://reminder-assistent.onrender.com/api/exotel/say?message=${encodeURIComponent(spokenMessage)}`;
   params.append('Url', messageUrl);
 
   try {
