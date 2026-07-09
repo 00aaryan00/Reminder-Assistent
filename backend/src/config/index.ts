@@ -30,17 +30,17 @@ export const config = {
   databaseUrl: process.env.DATABASE_URL as string,
   
   google: {
-    clientId: process.env.GOOGLE_CLIENT_ID as string,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-    redirectUri: process.env.GOOGLE_REDIRECT_URI as string,
+    clientId: process.env.GOOGLE_CLIENT_ID || '',
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+    redirectUri: process.env.GOOGLE_REDIRECT_URI || 'http://localhost:5000/api/auth/google/callback',
   },
   
   exotel: {
-    sid: process.env.EXOTEL_SID as string,
-    apiKey: process.env.EXOTEL_API_KEY as string,
-    apiToken: process.env.EXOTEL_API_TOKEN as string,
+    sid: process.env.EXOTEL_SID || '',
+    apiKey: process.env.EXOTEL_API_KEY || '',
+    apiToken: process.env.EXOTEL_API_TOKEN || '',
     subdomain: process.env.EXOTEL_SUBDOMAIN || 'api.exotel.com',
-    callerId: process.env.EXOTEL_CALLER_ID as string,
+    callerId: process.env.EXOTEL_CALLER_ID || '',
   }
 };
 export type Config = typeof config;
