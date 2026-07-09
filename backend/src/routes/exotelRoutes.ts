@@ -6,6 +6,9 @@ const router = Router();
 router.all('/say', (req: Request, res: Response) => {
   let message = req.query.message as string;
   
+  console.log(`[Exotel] Incoming request from Exotel! Method: ${req.method}, Message: ${message}`);
+  console.log(`[Exotel] Headers:`, req.headers);
+
   if (!message) {
     console.log('[Exotel] Warning: message parameter missing. Using fallback.');
     message = 'Hello. This is your reminder. Have a great day.';
