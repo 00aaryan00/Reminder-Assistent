@@ -14,14 +14,8 @@ router.all('/say', (req: Request, res: Response) => {
     message = 'Hello. This is your reminder. Have a great day.';
   }
 
-  // Generate ExoML (XML) response
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<Response>
-  <Say>${message}</Say>
-</Response>`;
-
-  // Exotel requires application/xml content type
-  res.type('application/xml').send(xml);
+  // Exotel's Greeting Applet dynamic TTS requires text/plain response (NO XML)
+  res.type('text/plain').send(message);
 });
 
 export default router;
