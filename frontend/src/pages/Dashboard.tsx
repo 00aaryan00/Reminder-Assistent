@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { LogOut, Calendar, Settings as SettingsIcon, PhoneCall, CheckCircle, Save, Loader2 } from 'lucide-react';
 
-const BACKEND_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const BACKEND_URL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5000');
 
 export const Dashboard: React.FC = () => {
   const { user, logout, checkAuth } = useAuth();
