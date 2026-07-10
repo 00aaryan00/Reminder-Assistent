@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { LogOut, Calendar, Settings as SettingsIcon, PhoneCall, CheckCircle, Save, Loader2 } from 'lucide-react';
 
+const BACKEND_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 export const Dashboard: React.FC = () => {
   const { user, logout, checkAuth } = useAuth();
   
@@ -18,7 +20,7 @@ export const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/calendar/upcoming', {
+        const response = await fetch(`${BACKEND_URL}/api/calendar/upcoming`, {
           credentials: 'include'
         });
         if (response.ok) {
@@ -52,7 +54,7 @@ export const Dashboard: React.FC = () => {
     setMessage('');
     
     try {
-      const response = await fetch('http://localhost:5000/api/settings', {
+      const response = await fetch(`${BACKEND_URL}/api/settings`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
