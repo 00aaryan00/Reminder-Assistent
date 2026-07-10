@@ -123,10 +123,11 @@ export const handleGoogleCallback = async (req: Request, res: Response, next: Ne
     );
 
     // Set secure session cookie. httpOnly prevents Client JS (React) from accessing it.
+    // sameSite: 'none' and secure: true are REQUIRED for cross-origin frontend/backend separation.
     res.cookie('session', sessionToken, {
       httpOnly: true,
-      secure: config.env === 'production',
-      sameSite: 'lax',
+      secure: config.env === 'production' || true, // Must be true for sameSite: 'none'
+      sameSite: 'none',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
